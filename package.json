@@ -1,0 +1,29 @@
+{
+  "name": "owl-coat",
+  "version": "0.0.1",
+  "description": "Generate HTML documentation from OWL ontology",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "owl",
+    "documentation",
+    "ontology",
+    "rdf",
+    "semantic"
+  ],
+  "jshintConfig": {
+    "esversion": 6
+  },
+  "author": "Pasquale Lisena <pasquale.lisena@eurecom.fr> (http://pasqlisena.github.io/)",
+  "license": "MIT",
+  "dependencies": {
+    "pug": "^2.0.0-beta6",
+    "rdf-translator": "0.1.0",
+    "rdflib": "^0.13.0"
+  },
+  "devDependencies": {
+    "nib": "^1.1.2"
+  }
+}

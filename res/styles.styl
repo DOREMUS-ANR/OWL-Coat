@@ -1,0 +1,73 @@
+// out: ../out/styles.css, compress: false, libs: nib
+
+@import 'https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&lang=en'
+
+defaultFont = 'Roboto','Helvetica','Arial',sans-serif
+monospaceFont = "Lucida Console", Monaco, monospace
+
+html, body
+  background-color: #FAFAFA;
+
+body
+  font-family defaultFont
+  max-width 900px
+  margin auto
+
+h1,h2
+  font-family defaultFont
+
+ul
+  list-style none
+  padding 0
+
+.logo
+  width 5em
+  height 5em
+  float left
+  margin-right: 2em
+  img
+    max-width: 100%
+    max-height: 100%
+
+.card
+  background #fff
+  box-shadow 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23)
+
+  ul.list
+    padding 1em 0
+    > li
+      margin 1em 2em
+      padding 1em
+      border-bottom 1px solid #999
+
+  h2
+    font-weight: 300
+    margin 0
+    a
+      text-decoration none
+      color inherit;
+    span
+      font-variant: small-caps
+    small
+      display block
+      font-size: .5em
+      opacity: .6
+      font-family monospaceFont
+
+  ul.features
+    display table
+    li
+      display table-row
+      margin .5em
+      font-size .9em
+      div
+        display table-cell
+        padding .5em
+        vertical-align: text-top;
+      .prop
+        font-variant: small-caps
+        opacity .8
+
+      small
+        opacity .5
+        font-size .8em

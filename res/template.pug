@@ -1,0 +1,73 @@
+doctype html
+html(lang="en")
+  head
+    title DOREMUS Ontology
+    link(rel='stylesheet', href='styles.css')
+
+  body
+    .logo
+      img(src='http://www.doremus.org/wp-content/uploads/2015/06/Logotype-Doremus-VA-Couleurs.png')
+    h1 DOREMUS Ontology
+    p This ontology defines #{classes.length} classes and #{properties.length} properties.
+
+    h1 Summary
+    section.summary
+      ul
+        li
+          b Classes
+          ul
+          each c in classes
+            li
+              a(href='#'+utils.getHash(c))
+                span= utils.print(c['rdfs:label'], true)
+          b Properties
+          ul
+          each p in properties
+            li
+              a(href='#'+utils.getHash(p))
+                if p['rdfs:label'] == null
+                  span= p['@id']
+                else
+                  span= utils.print(p['rdfs:label'], true)
+
+    h1 Classes
+    section.classes.card
+      ul.list
+        each c in classes
+          li
+            h2(id=utils.getHash(c))
+              a(href='#'+utils.getHash(c))
+                if c['rdfs:label'] == null
+                  span= c['@id']
+                else
+                  span= utils.print(c['rdfs:label'], true)
+                small= ontology.namespace + utils.getHash(c)
+            ul.features
+              each obj, prop in c
+                if utils.isSignificative(prop)
+                  li
+                    div.prop
+                      small= prop
+                    div.obj
+                      span!= utils.print(obj).replace(/\n/g, '<br/>')
+
+    h2 Properties
+    section.properties.card
+      ul.list
+        each p in properties
+          li
+            h2(id=utils.getHash(p))
+              a(href='#'+utils.getHash(p))
+                if p['rdfs:label'] == null
+                  span= p['@id']
+                else
+                  span= utils.print(p['rdfs:label'], true)
+                small= ontology.namespace + utils.getHash(p)
+            ul.features
+              each obj, prop in p
+                if utils.isSignificative(prop)
+                  li
+                    div.prop
+                      small= prop
+                    div.obj
+                      span!= utils.print(obj).replace(/\n/g, '<br/>')
