@@ -118,7 +118,7 @@ function sortByLang(a, b) {
 function render(local) {
   var html = pug.renderFile('res/template.pug', Object.assign({}, pugOptions, local));
 
-  fs.writeFileSync('out/out.html', html);
+  fs.writeFileSync('out/index.html', html, {encoding: 'utf-8'});
 
 }
 
