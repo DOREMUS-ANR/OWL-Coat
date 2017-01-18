@@ -4,12 +4,23 @@ html(lang="en")
     title DOREMUS Ontology
     link(rel='stylesheet', href='styles.css')
     meta(charset='UTF-8')
+    meta(name="viewport", content="width=device-width, initial-scale=1.0")
+
 
   body
-    .logo
-      img(src='http://www.doremus.org/wp-content/uploads/2015/06/Logotype-Doremus-VA-Couleurs.png')
-    h1 DOREMUS Ontology
-    p This ontology defines #{classes.length} classes and #{properties.length} properties.
+
+    section.cover
+      .inside
+        .description
+          h1 DOREMUS Ontology
+          p The DOREMUS Ontology is an extension the FRBRoo model for describing music catalogs.
+          p This ontology defines #{classes.length} classes and #{properties.length} properties.
+          a.btn(href="https://github.com/DOREMUS-ANR/doremus-ontology")
+            span See it on GitHub
+
+        .logo
+          img(src='http://www.doremus.org/wp-content/uploads/2015/06/Logotype-Doremus-VA-Couleurs.png')
+
 
     h1 Summary
     section.summary
@@ -52,7 +63,7 @@ html(lang="en")
                     div.obj
                       span!= utils.print(obj).replace(/\n/g, '<br/>')
 
-    h2 Properties
+    h1 Properties
     section.properties.card
       ul.list
         each p in properties
@@ -72,3 +83,20 @@ html(lang="en")
                       small= prop
                     div.obj
                       span!= utils.print(obj).replace(/\n/g, '<br/>')
+
+    footer#appFooter
+      .footerCont
+        div
+          p.descr
+            | The
+            strong DOREMUS Ontology
+            | lives inside the
+            a(href='http://www.doremus.org', rel='external', target='_blank') DOREMUS project
+            | , for describing, publishing, connecting and contextualizing music catalogues on the web of data.
+            br
+            br
+            | Photo credit:
+            a(href='https://flic.kr/p/njM9TN') Howard Ignatius
+        .projLogoCont
+          a(href='http://www.doremus.org', rel='external', target='_blank')
+            img(src='http://www.doremus.org/wp-content/uploads/2015/06/Logotype-Doremus-VA-Couleurs.png')
