@@ -24,23 +24,21 @@ html(lang="en")
 
     h1 Summary
     section.summary
+      h2 Classes
       ul
-        li
-          b Classes
-          ul
-          each c in classes
-            li
-              a(href='#'+utils.getHash(c))
-                span= utils.print(c['rdfs:label'], true)
-          b Properties
-          ul
-          each p in properties
-            li
-              a(href='#'+utils.getHash(p))
-                if p['rdfs:label'] == null
-                  span= p['@id']
-                else
-                  span= utils.print(p['rdfs:label'], true)
+        each c in classes
+          li
+            a(href='#'+utils.getHash(c))
+              span= utils.print(c['rdfs:label'], true)
+      h2 Properties
+      ul
+        each p in properties
+          li
+            a(href='#'+utils.getHash(p))
+              if p['rdfs:label'] == null
+                span= p['@id']
+              else
+                span= utils.print(p['rdfs:label'], true)
 
     h1 Classes
     section.classes.card

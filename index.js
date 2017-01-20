@@ -57,13 +57,17 @@ function parseJsonLD(json) {
 }
 
 function byInnerCode(a, b) {
-  let regex = /^[A-Z](\d+)/;
+  let regex = /^[A-Z](\d+)(i)?/;
+
   let matchA = getHash(a).match(regex);
   let codeA = matchA && matchA[1] || -1;
+  if (matchA[2]) codeA += '.1';
+
   let matchB = getHash(b).match(regex);
   let codeB = matchB && matchB[1] || -1;
+  if (matchB[2]) codeB += '.1';
 
-  return parseInt(codeA) - parseFloat(codeB);
+  return parseFloat(codeA) - parseFloat(codeB);
 }
 
 function getHash(item) {
@@ -118,7 +122,9 @@ function sortByLang(a, b) {
 function render(local) {
   var html = pug.renderFile('res/template.pug', Object.assign({}, pugOptions, local));
 
-  fs.writeFileSync('out/index.html', html, {encoding: 'utf-8'});
+  fs.writeFileSync('out/index.html', html, {
+    encoding: 'utf-8'
+  });
 
 }
 
