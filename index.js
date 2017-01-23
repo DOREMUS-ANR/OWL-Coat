@@ -7,6 +7,7 @@ const fs = require('fs'),
   Filehound = require('filehound');
 
 const config = require('./config.json');
+var context, graph;
 
 // READ OPTIONS
 var defaultOpt = {
@@ -43,8 +44,8 @@ rdfTranslator(input, guessSourceFormat(source), 'json-ld', (err, data) => {
 function parseJsonLD(json) {
   // fs.writeFileSync('temp.json', json);
 
-  var context = json['@context'],
-    graph = json['@graph'];
+  context = json['@context'];
+  graph = json['@graph'];
 
   // prune graph from other ns
   var ontPrefix = Object.keys(context).find((prefix) => context[prefix] == namedGraph);
@@ -99,7 +100,7 @@ function byInnerCode(a, b) {
 function getHash(item) {
   'use strict';
   let uri = item['@id'];
-  if(!uri) return null;
+  if (!uri) return null;
   return options.ontPrefix ? uri.replace(options.ontPrefix + ":", "") : uri;
 }
 
@@ -121,7 +122,7 @@ function print(value, single) {
     else
       return value.map((v) => print(v)).join('\n');
   } else if (value['@id']) {
-    return value['@id'];
+    return `<a href="${regenerateLink(value['@id'])}">${value['@id']}</a>`;
   } else {
     let text = value['@value'];
     if (!single) {
@@ -130,6 +131,13 @@ function print(value, single) {
     }
     return text;
   }
+}
+
+function regenerateLink(short) {
+  if (!short.includes(':')) return short;
+  [prefix, id] = short.split(':');
+
+  return context[prefix] + id;
 }
 
 function sortByLang(a, b) {

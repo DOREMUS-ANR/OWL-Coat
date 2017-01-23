@@ -126,6 +126,13 @@ ul {
   list-style: none;
   padding: 0;
 }
+a {
+  color: #2196f3;
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
+}
 section,
 h1 {
   max-width: 900px;
@@ -249,3 +256,4 @@ h1 {
   opacity: 0.5;
   font-size: 0.8em;
 }
+/*# sourceMappingURL=styles.css.map */
