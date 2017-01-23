@@ -210,6 +210,5 @@ function copySync(src, dest) {
     return false;
   }
 
-  var data = fs.readFileSync(src, 'utf-8');
-  fs.writeFileSync(dest, data);
+  fs.createReadStream(src).pipe(fs.createWriteStream(dest));
 }
