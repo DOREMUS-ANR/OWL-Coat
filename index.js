@@ -47,8 +47,11 @@ function parseJsonLD(json) {
     graph = json['@graph'];
 
   // prune graph from other ns
-  ontPrefix = 'mus';
-  graph = graph.filter((item) => item['@id'].startsWith(ontPrefix));
+  var ontPrefix = Object.keys(context).find((prefix) => context[prefix] == namedGraph);
+  if (ontPrefix) {
+    graph = graph.filter((item) => item['@id'].startsWith(ontPrefix));
+    options.ontPrefix = ontPrefix;
+  }
 
   // ONTOLOGY
   var ontology = graph.find(matchClass('owl:Ontology'));
@@ -96,7 +99,8 @@ function byInnerCode(a, b) {
 function getHash(item) {
   'use strict';
   let uri = item['@id'];
-  return uri && uri.replace(ontPrefix + ":", "");
+  if(!uri) return null;
+  return options.ontPrefix ? uri.replace(options.ontPrefix + ":", "") : uri;
 }
 
 function isSignificative(prop) {
@@ -116,9 +120,9 @@ function print(value, single) {
       return print(value.sort(sortByLang)[0], single);
     else
       return value.map((v) => print(v)).join('\n');
-  } else if (value['@id'])
+  } else if (value['@id']) {
     return value['@id'];
-  else {
+  } else {
     let text = value['@value'];
     if (!single) {
       let lang = value['@language'];
