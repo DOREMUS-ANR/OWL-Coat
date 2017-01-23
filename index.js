@@ -1,17 +1,38 @@
 const fs = require('fs'),
+  path = require('path'),
+  async = require('async'),
   pug = require('pug'),
-  rdfTranslator = require('rdf-translator');
+  rdfTranslator = require('rdf-translator'),
+  validUrl = require('valid-url'),
+  Filehound = require('filehound');
 
-var uri = 'https://raw.githubusercontent.com/DOREMUS-ANR/doremus-ontology/master/doremus.ttl';
-var namedGraph = 'http://data.doremus.org/ontology#';
-var selectedLanguage = 'fr';
+const config = require('./config.json');
+
+// READ OPTIONS
+var defaultOpt = {
+  output: './out/',
+  input: './res/'
+};
+
+var options = Object.assign({}, defaultOpt, config);
+var {
+  source,
+  namedGraph
+} = options;
+
+if (!source) throw Error('The "source" field is required');
+if (!namedGraph) throw Error('The "namedGraph" field is required');
+
+mkdirInCase(options.output);
+
+var input = validUrl.isUri(source) ? source : fs.readFileSync('temp.json').toString();
 
 var pugOptions = {
-  filename: 'out/output.html',
   pretty: true
 };
 
-rdfTranslator(uri, guessSourceFormat(uri), 'json-ld', (err, data) => {
+// CONVERT IN JSONLD for practical reasons
+rdfTranslator(input, guessSourceFormat(source), 'json-ld', (err, data) => {
   if (err)
     return console.error(err);
   parseJsonLD(JSON.parse(data));
@@ -43,7 +64,7 @@ function parseJsonLD(json) {
   classes = classes.sort(byInnerCode);
   properties = properties.sort(byInnerCode);
 
-  render({
+  runExport({
     ontology,
     classes,
     properties,
@@ -52,8 +73,10 @@ function parseJsonLD(json) {
       getHash,
       isSignificative
     }
+  }, () => {
+    console.log('done');
   });
-  console.log('done');
+
 }
 
 function byInnerCode(a, b) {
@@ -119,13 +142,44 @@ function sortByLang(a, b) {
   return al > bl ? 1 : -1;
 }
 
-function render(local) {
-  var html = pug.renderFile('res/template.pug', Object.assign({}, pugOptions, local));
+function runExport(local, callback = noop) {
 
-  fs.writeFileSync('out/index.html', html, {
+  // filter the templates
+  var pugs = Filehound.create()
+    .ext('pug');
+
+  async.series([
+    (cb) => {
+      // render the pugs
+      pugs.paths(options.input)
+        .find((err, templates) => {
+          templates.forEach((template) => render(template, local));
+          cb();
+        });
+    },
+    (cb) => {
+      // copy all the other files
+      pugs.not().find((err, files) => {
+        if (err) throw Error("here" + err);
+
+        files.forEach((file) => {
+          let dist = path.join(options.output, file.replace(/[^\/]+\//, ''));
+          mkdirInCase(path.dirname(dist));
+          copySync(file, dist);
+        });
+        cb();
+      });
+    }
+  ], callback());
+}
+
+function render(template, local) {
+  var dist = path.join(options.output, path.basename(template).replace('.pug', '.html'));
+  var html = pug.renderFile(template, Object.assign({}, pugOptions, local));
+
+  fs.writeFileSync(dist, html, {
     encoding: 'utf-8'
   });
-
 }
 
 function matchClass(className) {
@@ -143,4 +197,19 @@ function guessSourceFormat(fileName) {
     default:
       return 'xml';
   }
+}
+
+function mkdirInCase(dir) {
+  if (!fs.existsSync(dir)) {
+    fs.mkdirSync(dir);
+  }
+}
+
+function copySync(src, dest) {
+  if (!fs.existsSync(src)) {
+    return false;
+  }
+
+  var data = fs.readFileSync(src, 'utf-8');
+  fs.writeFileSync(dest, data);
 }

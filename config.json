@@ -1,0 +1,6 @@
+{
+  "source": "https://raw.githubusercontent.com/DOREMUS-ANR/doremus-ontology/master/doremus.ttl",
+  "namedGraph": "http://data.doremus.org/ontology#",
+  "input": "./res/",
+  "output": "./out/"
+}

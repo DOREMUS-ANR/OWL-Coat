@@ -1,6 +1,6 @@
 {
   "name": "owl-coat",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Generate HTML documentation from OWL ontology",
   "main": "index.js",
   "scripts": {
@@ -16,12 +16,20 @@
   "jshintConfig": {
     "esversion": 6
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DOREMUS-ANR/OWL-Coat.git"
+  },
   "author": "Pasquale Lisena <pasquale.lisena@eurecom.fr> (http://pasqlisena.github.io/)",
   "license": "MIT",
   "dependencies": {
+    "async": "^2.1.4",
+    "filehound": "^1.13.0",
+    "noop": "^0.2.2",
     "pug": "^2.0.0-beta6",
     "rdf-translator": "0.1.0",
-    "rdflib": "^0.13.0"
+    "rdflib": "^0.13.0",
+    "valid-url": "^1.0.9"
   },
   "devDependencies": {
     "nib": "^1.1.2",
