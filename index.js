@@ -26,7 +26,7 @@ if (!namedGraph) throw Error('The "namedGraph" field is required');
 
 mkdirInCase(options.output);
 
-var input = validUrl.isUri(source) ? source : fs.readFileSync('temp.json').toString();
+var input = validUrl.isUri(source) ? source : fs.readFileSync(source).toString();
 
 var pugOptions = {
   pretty: true
@@ -135,7 +135,7 @@ function print(value, single) {
 
 function regenerateLink(short) {
   if (!short.includes(':')) return short;
-  [prefix, id] = short.split(':');
+  const [prefix, id] = short.split(':');
 
   return context[prefix] + id;
 }
@@ -154,7 +154,7 @@ function sortByLang(a, b) {
   return al > bl ? 1 : -1;
 }
 
-function runExport(local, callback = noop) {
+function runExport(local, callback) {
 
   // filter the templates
   var pugs = Filehound.create()
@@ -175,7 +175,7 @@ function runExport(local, callback = noop) {
         if (err) throw Error("here" + err);
 
         files.forEach((file) => {
-          let dist = path.join(options.output, file.replace(/[^\/]+\//, ''));
+          let dist = path.join(options.output, file.replace(/[^/]+\//, ''));
           mkdirInCase(path.dirname(dist));
           copySync(file, dist);
         });
