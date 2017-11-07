@@ -88,11 +88,11 @@ function byInnerCode(a, b) {
 
   let matchA = getHash(a).match(regex);
   let codeA = matchA && matchA[1] || -1;
-  if (matchA[2]) codeA += '.1';
+  if (matchA && matchA[2]) codeA += '.1';
 
   let matchB = getHash(b).match(regex);
   let codeB = matchB && matchB[1] || -1;
-  if (matchB[2]) codeB += '.1';
+  if (matchB && matchB[2]) codeB += '.1';
 
   return parseFloat(codeA) - parseFloat(codeB);
 }
