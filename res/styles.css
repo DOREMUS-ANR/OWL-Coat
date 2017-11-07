@@ -53,8 +53,18 @@
   padding: 4em 3em;
   background: #d3d3d3;
 }
+#appFooter .descr br {
+  clear: both;
+}
 #appFooter .descr a {
   margin-left: 0.5em;
+}
+#appFooter .descr a.licenseBadge {
+  margin-left: 0;
+  margin-right: 1em;
+  margin-top: 0.3em;
+  display: block;
+  float: left;
 }
 #appFooter .descr strong {
   margin: 0 0.5em;
