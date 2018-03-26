@@ -116,7 +116,9 @@ function isSignificative(prop) {
 function print(value, single) {
   'use strict';
 
-  if (Array.isArray(value)) {
+  if (typeof value === 'string')
+    return value;
+  else if (Array.isArray(value)) {
     if (single)
       return print(value.sort(sortByLang)[0], single);
     else
@@ -195,7 +197,12 @@ function render(template, local) {
 }
 
 function matchClass(className) {
-  return (item) => item["@type"].match(className);
+  return (item) => {
+    let _typ = item["@type"];
+    if (Array.isArray(_typ))
+      return _typ.some(t => t.match(className));
+    return _typ.match(className);
+  };
 }
 
 

@@ -23,17 +23,17 @@
   "author": "Pasquale Lisena <pasquale.lisena@eurecom.fr> (http://pasqlisena.github.io/)",
   "license": "MIT",
   "dependencies": {
-    "async": "^2.1.4",
-    "filehound": "^1.13.0",
+    "async": "^2.6.0",
+    "filehound": "^1.16.2",
     "noop": "^0.2.2",
-    "pug": "^2.0.0-beta6",
-    "rdf-translator": "0.1.0",
-    "rdflib": "^0.13.0",
+    "pug": "^2.0.3",
+    "rdf-translator": "^2.0.0",
+    "rdflib": "^0.16.7",
     "valid-url": "^1.0.9"
   },
   "devDependencies": {
-    "eslint": "^4.3.0",
+    "eslint": "^4.19.1",
     "nib": "^1.1.2",
-    "rupture": "^0.6.2"
+    "rupture": "^0.7.1"
   }
 }
