@@ -24,11 +24,11 @@
   "license": "MIT",
   "dependencies": {
     "async": "^2.6.0",
-    "filehound": "^1.16.2",
+    "filehound": "^1.16.3",
     "noop": "^0.2.2",
     "pug": "^2.0.3",
     "rdf-translator": "^2.0.0",
-    "rdflib": "^0.16.7",
+    "rdflib": "^0.16.8",
     "valid-url": "^1.0.9"
   },
   "devDependencies": {

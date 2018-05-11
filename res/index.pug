@@ -21,6 +21,10 @@ html(lang="en")
         .logo
           img(src='http://www.doremus.org/wp-content/uploads/2015/06/Logotype-Doremus-VA-Couleurs.png')
 
+    section.model-pics
+      img(src='./img/model.composition.png')
+      img(src='./img/model.concert.png')
+      img(src='./img/model.score.png')
 
     h1 Summary
     section.summary
@@ -29,7 +33,11 @@ html(lang="en")
         each c in classes
           li
             a(href='#'+utils.getHash(c))
-              span= utils.print(c['rdfs:label'], true)
+              if c['rdfs:label'] == null
+                span= c['@id']
+              else
+                span= utils.print(c['rdfs:label'], true)
+
       h2 Properties
       ul
         each p in properties
