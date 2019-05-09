@@ -198,10 +198,10 @@ function render(template, local) {
 
 function matchClass(className) {
   return (item) => {
-    let _typ = item["@type"];
-    if (Array.isArray(_typ))
-      return _typ.some(t => t.match(className));
-    return _typ.match(className);
+    let typ = item["@type"];
+    if (Array.isArray(typ))
+      return typ.some((t) => t.match(className));
+    return typ.match(className);
   };
 }
 
