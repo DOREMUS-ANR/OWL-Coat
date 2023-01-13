@@ -1,39 +1,39 @@
 {
-  "name": "owl-coat",
-  "version": "0.1.0",
-  "description": "Generate HTML documentation from OWL ontology",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [
-    "owl",
-    "documentation",
-    "ontology",
-    "rdf",
-    "semantic"
-  ],
-  "jshintConfig": {
-    "esversion": 6
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/DOREMUS-ANR/OWL-Coat.git"
-  },
-  "author": "Pasquale Lisena <pasquale.lisena@eurecom.fr> (http://pasqlisena.github.io/)",
-  "license": "MIT",
-  "dependencies": {
-    "async": "^2.6.2",
-    "filehound": "^1.17.0",
-    "noop": "^0.2.2",
-    "pug": "^2.0.3",
-    "rdf-translator": "^2.0.0",
-    "rdflib": "^0.20.1",
-    "valid-url": "^1.0.9"
-  },
-  "devDependencies": {
-    "eslint": "^5.16.0",
-    "nib": "^1.1.2",
-    "rupture": "^0.7.1"
-  }
+    "name": "owl-coat",
+    "version": "0.2.0",
+    "description": "Generate HTML documentation from OWL ontology",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "keywords": [
+        "owl",
+        "documentation",
+        "ontology",
+        "rdf",
+        "semantic"
+    ],
+    "jshintConfig": {
+        "esversion": 6
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/DOREMUS-ANR/OWL-Coat.git"
+    },
+    "author": "Pasquale Lisena <pasquale.lisena@eurecom.fr> (http://pasqlisena.github.io/)",
+    "license": "MIT",
+    "dependencies": {
+        "@frogcat/ttl2jsonld": "^0.0.8",
+        "filehound": "^1.17.6",
+        "fs-extra": "^11.1.0",
+        "noop": "^1.0.1",
+        "pug": "^3.0.2",
+        "rdflib": "^2.2.21",
+        "valid-url": "^1.0.9"
+    },
+    "devDependencies": {
+        "eslint": "^8.31.0",
+        "nib": "^1.2.0",
+        "rupture": "^0.7.1"
+    }
 }
