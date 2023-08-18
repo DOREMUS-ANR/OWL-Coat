@@ -1,11 +1,8 @@
-OWL Coat
-========
+# OWL Coat
 
 > ALPHA version
 
 Generate HTML documentation from an Ontology RDF file and a [PUG](https://pugjs.org) template.
-
-
 
 ## Installation
 
@@ -16,8 +13,7 @@ Clone this report:
 Install dependencies:
 
     npm install
-    
-    
+
 ## Usage
 
 Edit the `config.json` file according to your needs:
@@ -28,7 +24,10 @@ Edit the `config.json` file according to your needs:
       "input": [default: "./res/"],
       "output": [default: "./out/"]
     }
-    
+
+Live compile the stylus file
+    stylus -w res/styles.styl -o res/styles.css
+
 Run it
   
     node index

@@ -4,17 +4,18 @@ const fs = require('fs-extra'),
     validUrl = require('valid-url'),
     ttl2jsonld = require('@frogcat/ttl2jsonld'),
     Filehound = require('filehound');
+const utils = require('./utils.js')
 
 const config = require('./config.json');
 var context, graph;
 
 // READ OPTIONS
-var defaultOpt = {
+const defaultOpt = {
     output: './out/',
     input: './res/'
 };
 
-var options = Object.assign({}, defaultOpt, config);
+var options = Object.assign(utils.options, defaultOpt, config);
 var {
     source,
     namedGraph
@@ -23,7 +24,7 @@ var {
 if (!source) throw Error('The "source" field is required');
 if (!namedGraph) throw Error('The "namedGraph" field is required');
 
-mkdirInCase(options.output);
+utils.mkdirInCase(options.output);
 
 var input = validUrl.isUri(source) ? source : fs.readFileSync(source).toString();
 
@@ -39,6 +40,7 @@ function parseJsonLD(json) {
 
     context = json['@context'];
     graph = json['@graph'];
+    options.context = context;
 
     // ONTOLOGY
     var ontology = graph.find(matchClass('owl:Ontology'));
@@ -52,10 +54,10 @@ function parseJsonLD(json) {
     }
 
     // CLASSES
-    var classes = graph.filter(matchClass('owl:Class'));
+    var classes = graph.filter(matchClass(/(owl|rdfs):Class/));
 
     // PROPERTIES
-    var properties = graph.filter(matchClass(/owl:(Object|Datatype)Property/));
+    var properties = graph.filter(matchClass(/(owl|rdf):(Object|Datatype)?Property/));
 
     // FIXME this is a DOREMUS/FRBROO fix
     classes = classes.sort(byInnerCode);
@@ -65,11 +67,7 @@ function parseJsonLD(json) {
         ontology,
         classes,
         properties,
-        utils: {
-            print,
-            getHash,
-            isSignificative
-        }
+        utils
     }).then(console.log('done'))
 
 }
@@ -77,75 +75,18 @@ function parseJsonLD(json) {
 function byInnerCode(a, b) {
     let regex = /^[A-Z](\d+)(i)?/;
 
-    let matchA = getHash(a).match(regex);
+    let matchA = utils.getHash(a).match(regex);
     let codeA = matchA && matchA[1] || -1;
     if (matchA && matchA[2]) codeA += '.1';
 
-    let matchB = getHash(b).match(regex);
+    let matchB = utils.getHash(b).match(regex);
     let codeB = matchB && matchB[1] || -1;
     if (matchB && matchB[2]) codeB += '.1';
 
     return parseFloat(codeA) - parseFloat(codeB);
 }
 
-function getHash(item) {
-    'use strict';
-    let uri = item['@id'];
-    if (!uri) return null;
-    return options.ontPrefix ? uri.replace(options.ontPrefix + ":", "") : uri;
-}
 
-function isSignificative(prop) {
-    'use strict';
-
-    var notSignificatifProps = [
-        '@type', '@id', 'rdfs:isDefinedBy'
-    ];
-    return !notSignificatifProps.includes(prop);
-}
-
-function print(value, single) {
-    'use strict';
-
-    if (typeof value === 'string')
-        return value;
-    else if (Array.isArray(value)) {
-        if (single)
-            return print(value.sort(sortByLang)[0], single);
-        else
-            return value.map((v) => print(v)).join('\n');
-    } else if (value['@id']) {
-        return `<a href="${regenerateLink(value['@id'])}">${value['@id']}</a>`;
-    } else {
-        let text = value['@value'];
-        if (!single) {
-            let lang = value['@language'];
-            if (lang) text += `<small>@${lang}</small>`;
-        }
-        return text;
-    }
-}
-
-function regenerateLink(short) {
-    if (!short.includes(':')) return short;
-    const [prefix, id] = short.split(':');
-
-    return context[prefix] + id;
-}
-
-function sortByLang(a, b) {
-    let al = a["@language"],
-        bl = b["@language"];
-
-    // first no lang
-    if (!al) return -1;
-    if (!bl) return 1;
-    // then english
-    if (al == "en") return -1;
-    if (bl == "en") return 1;
-    // then the rest
-    return al > bl ? 1 : -1;
-}
 
 function runExport(local) {
 
@@ -160,8 +101,8 @@ function runExport(local) {
         .then(files => {
             files.forEach((file) => {
                 let dist = path.join(options.output, file.replace(/[^/]+\//, ''));
-                mkdirInCase(path.dirname(dist));
-                copySync(file, dist);
+                utils.mkdirInCase(path.dirname(dist));
+                utils.copySync(file, dist);
             });
         });
 }
@@ -181,19 +122,4 @@ function matchClass(className) {
             return typ.some((t) => t['@id'].match(className));
         return typ['@id'].match(className);
     };
-}
-
-
-function mkdirInCase(dir) {
-    if (!fs.existsSync(dir)) {
-        fs.mkdirSync(dir);
-    }
-}
-
-function copySync(src, dest) {
-    if (!fs.existsSync(src)) {
-        return false;
-    }
-
-    fs.createReadStream(src).pipe(fs.createWriteStream(dest));
 }

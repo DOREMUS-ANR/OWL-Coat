@@ -23,16 +23,17 @@
     "author": "Pasquale Lisena <pasquale.lisena@eurecom.fr> (http://pasqlisena.github.io/)",
     "license": "MIT",
     "dependencies": {
-        "@frogcat/ttl2jsonld": "^0.0.8",
+        "@frogcat/ttl2jsonld": "^0.0.9",
         "filehound": "^1.17.6",
-        "fs-extra": "^11.1.0",
+        "fs-extra": "^11.1.1",
         "noop": "^1.0.1",
         "pug": "^3.0.2",
-        "rdflib": "^2.2.21",
+        "rdflib": "^2.2.32",
+        "stylus": "^0.59.0",
         "valid-url": "^1.0.9"
     },
     "devDependencies": {
-        "eslint": "^8.31.0",
+        "eslint": "^8.47.0",
         "nib": "^1.2.0",
         "rupture": "^0.7.1"
     }
