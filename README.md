@@ -26,7 +26,7 @@ Edit the `config.json` file according to your needs:
     }
 
 Live compile the stylus file
-    stylus -w res/styles.styl -o res/styles.css
+    stylus -u nib -u rupture -w res/styles.styl -o res/styles.css
 
 Run it
   
