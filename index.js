@@ -117,9 +117,8 @@ function render(template, local) {
 function matchClass(className) {
     return (item) => {
         let typ = item["@type"] || item["rdf:type"];
-        // console.log(className, typ['@id'], typ['@id'] == className, typ);
         if (Array.isArray(typ))
-            return typ.some((t) => t['@id'].match(className));
-        return typ['@id'].match(className);
+            return typ.some((t) => (t['@id']||t).match(className));
+        return (typ['@id']||typ).match(className);
     };
 }
